@@ -24,6 +24,7 @@ const server = new ApolloServer({
       prisma,
     }
   },
+  introspection: true,
 })
 
 server
