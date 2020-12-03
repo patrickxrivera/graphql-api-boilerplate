@@ -1,0 +1,36 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["uncheckedScalarInputs"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model pgmigrations {
+  id     Int      @default(autoincrement()) @id
+  name   String
+  run_on DateTime
+}
+
+model Post {
+  id        Int     @default(autoincrement()) @id
+  content   String?
+  published Boolean @default(false)
+  title     String
+  authorId  Int
+  author    User    @relation(fields: [authorId], references: [id])
+
+  @@map("posts")
+}
+
+model User {
+  id       Int     @default(autoincrement()) @id
+  email    String  @unique
+  name     String?
+  password String
+  posts    Post[]
+
+  @@map("users")
+}
