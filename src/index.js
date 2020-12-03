@@ -2,11 +2,9 @@ const { ApolloServer } = require('apollo-server')
 const { applyMiddleware } = require('graphql-middleware')
 const { nexusPrisma } = require('nexus-plugin-prisma')
 const { makeSchema, declarativeWrappingPlugin } = require('@nexus/schema')
-const { PrismaClient } = require('@prisma/client')
+const prisma = require('./setup/models')
 const { permissions } = require('./services/permissions')
 const types = require('./types')
-
-const prisma = new PrismaClient()
 
 const server = new ApolloServer({
   schema: applyMiddleware(
