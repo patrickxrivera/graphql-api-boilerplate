@@ -16,7 +16,8 @@
     "pg": "^8.5.1"
   },
   "scripts": {
-    "start": "NODE_ENV=production npm i && npx prisma generate && node src",
+    "start": "node src",
+    "postinstall": "npx prisma generate",
     "start:dev": "nodemon src",
     "db:connect": "psql graphql_boilerplate_dev",
     "db:create-migration": "node-pg-migrate create",
