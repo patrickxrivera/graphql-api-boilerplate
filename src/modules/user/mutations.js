@@ -1,16 +1,15 @@
-const { stringArg } = require('@nexus/schema')
+import { stringArg } from '@nexus/schema';
+import { loginResolver, signUpResolver } from './resolvers';
 
-const { login: loginResolver, signup: signupResolver } = require('./resolvers')
-
-const signup = {
+const signUp = {
   type: 'AuthPayload',
   args: {
     name: stringArg({ nullable: true }),
     email: stringArg(),
     password: stringArg(),
   },
-  resolve: signupResolver,
-}
+  resolve: signUpResolver,
+};
 
 const login = {
   type: 'AuthPayload',
@@ -19,9 +18,9 @@ const login = {
     password: stringArg(),
   },
   resolve: loginResolver,
-}
+};
 
-module.exports = {
-  signup,
+export default {
+  signUp,
   login,
-}
+};

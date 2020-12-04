@@ -1,24 +1,24 @@
-const { objectType } = require('@nexus/schema')
+import { objectType } from '@nexus/schema';
 
 const AuthPayload = objectType({
   name: 'AuthPayload',
   definition(t) {
-    t.string('token')
-    t.field('user', { type: 'User' })
+    t.string('token');
+    t.field('user', { type: 'User' });
   },
-})
+});
 
 const User = objectType({
   name: 'User',
   definition(t) {
-    t.model.id()
-    t.model.name()
-    t.model.email()
-    t.model.posts({ pagination: false })
+    t.model.id();
+    t.model.name();
+    t.model.email();
+    t.model.posts({ pagination: false });
   },
-})
+});
 
-module.exports = {
+export default {
   AuthPayload,
   User,
-}
+};

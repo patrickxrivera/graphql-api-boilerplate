@@ -1,10 +1,9 @@
 import { compare, hash } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
 import models from '../../setup/models';
 import { getUserId } from '../../utils';
-import config from '../../config';
+import JWTService from '../../services/jwt';
 
-const login = async (parent, { email, password }, context) => {
+export const loginResolver = async (parent, { email, password }, context) => {
   const user = await models.user.findUnique({
     where: {
       email,
@@ -15,19 +14,23 @@ const login = async (parent, { email, password }, context) => {
     throw new Error(`No user found for email: ${email}`);
   }
 
-  const passwordValid = await compare(password, user.password);
+  const isValidPassword = await compare(password, user.password);
 
-  if (!passwordValid) {
+  if (!isValidPassword) {
     throw new Error('Invalid password');
   }
 
   return {
-    token: sign({ userId: user.id }, config.appSecret),
+    token: JWTService.sign({ userId: user.id }),
     user,
   };
 };
 
-const signup = async (parent, { name, email, password }, ctx) => {
+export const signUpResolver = async (
+  parent,
+  { name, email, password },
+  ctx,
+) => {
   const hashedPassword = await hash(password, 10);
   const user = await models.user.create({
     data: {
@@ -37,22 +40,16 @@ const signup = async (parent, { name, email, password }, ctx) => {
     },
   });
   return {
-    token: sign({ userId: user.id }, config.appSecret),
+    token: JWTService.sign({ userId: user.id }),
     user,
   };
 };
 
-const me = (parent, args, ctx) => {
+export const meResolver = (parent, args, ctx) => {
   const userId = getUserId(ctx);
   return models.user.findUnique({
     where: {
       id: userId,
     },
   });
-};
-
-module.exports = {
-  login,
-  signup,
-  me,
 };

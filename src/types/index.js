@@ -1,11 +1,11 @@
-const userTypes = require('../modules/user/types')
-const postTypes = require('../modules/post/types')
-const mutationTypes = require('./Mutation')
-const queryTypes = require('./Query')
+import userTypes from '../modules/user/types';
+import postTypes from '../modules/post/types';
+import mutationTypes from './Mutation';
+import queryTypes from './Query';
 
-module.exports = {
-  ...userTypes,
-  ...mutationTypes,
+export default {
   ...queryTypes,
+  ...mutationTypes,
+  ...userTypes,
   ...postTypes,
-}
+};

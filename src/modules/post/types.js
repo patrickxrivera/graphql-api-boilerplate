@@ -1,16 +1,14 @@
-const { objectType } = require('@nexus/schema')
+import { objectType } from '@nexus/schema';
 
 const Post = objectType({
   name: 'Post',
   definition(t) {
-    t.model.id()
-    t.model.published()
-    t.model.title()
-    t.model.content()
-    t.model.author()
+    t.model.id();
+    t.model.published();
+    t.model.title();
+    t.model.content();
+    t.model.author();
   },
-})
+});
 
-module.exports = {
-  Post,
-}
+export default { Post };

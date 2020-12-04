@@ -1,12 +1,12 @@
 import { idArg, stringArg } from '@nexus/schema';
 import { getFeed, getFilteredPosts, getPostByIdResolver } from './resolvers';
 
-export const feed = {
+const feed = {
   type: 'Post',
   resolve: getFeed,
 };
 
-export const filterPosts = {
+const filterPosts = {
   type: 'Post',
   args: {
     searchString: stringArg({ nullable: true }),
@@ -14,9 +14,15 @@ export const filterPosts = {
   resolve: getFilteredPosts,
 };
 
-export const getPostById = {
+const getPostById = {
   type: 'Post',
   nullable: true,
   args: { id: idArg() },
   resolve: getPostByIdResolver,
+};
+
+export default {
+  feed,
+  filterPosts,
+  getPostById,
 };

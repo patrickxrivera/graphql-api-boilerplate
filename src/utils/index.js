@@ -1,18 +1,36 @@
-import { verify } from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 
 export const isProd = () => process.env.NODE_ENV === 'production';
 
 const config = require('../config');
 
-export const getUserId = (context) => {
-  const Authorization = context.req.get('Authorization');
+const isValidToken = (token) => {
+  if (!token) {
+    return false;
+  }
+
+  // exp is in seconds but JS uses milliseconds
+  const tokenExpirationDate = new Date(token.exp * 1000);
+  const currentTimestamp = new Date();
+
+  if (currentTimestamp > tokenExpirationDate) {
+    throw new Error('Token is expired');
+  }
+
+  return true;
+};
+
+export const getUserId = (ctx) => {
+  const Authorization = ctx.req.get('Authorization');
 
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '');
 
-    const verifiedToken = verify(token, config.appSecret);
+    const verifiedToken = jwt.verify(token, config.appSecret);
 
-    return verifiedToken && verifiedToken.userId;
+    if (isValidToken(verifiedToken)) {
+      return verifiedToken.userId;
+    }
   }
 };
 

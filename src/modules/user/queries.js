@@ -1,11 +1,11 @@
-const { me: meResolver } = require('./resolvers')
+import { meResolver } from './resolvers';
 
 const me = {
   type: 'User',
   nullable: true,
   resolve: meResolver,
-}
+};
 
-module.exports = {
+export default {
   me,
-}
+};
