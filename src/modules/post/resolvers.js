@@ -13,13 +13,13 @@ export const createDraft = (parent, { title, content }, ctx) => {
   });
 };
 
-const deletePost = (parent, { id }, ctx) => {
+export const deletePost = (parent, { id }, ctx) => {
   return models.post.delete({
     where: { id: Number(id) },
   });
 };
 
-const publish = (parent, { id }, ctx) => {
+export const publish = (parent, { id }, ctx) => {
   return models.post.update({
     where: { id: Number(id) },
     data: { published: true },

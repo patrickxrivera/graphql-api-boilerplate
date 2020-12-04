@@ -4,6 +4,7 @@
 
 type AuthPayload {
   token: String
+  tokenExpiry: String
   user: User
 }
 

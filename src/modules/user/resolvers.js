@@ -1,13 +1,11 @@
 import { compare, hash } from 'bcryptjs';
 import models from '../../setup/models';
 import { getUserId, isProd } from '../../utils';
-import JWTService from '../../services/jwt';
+import AuthService from '../../services/auth';
 
-export const loginResolver = async (parent, { email, password }, context) => {
+export const loginResolver = async (parent, { email, password }, ctx) => {
   const user = await models.user.findUnique({
-    where: {
-      email,
-    },
+    where: { email },
   });
 
   if (!user) {
@@ -20,18 +18,16 @@ export const loginResolver = async (parent, { email, password }, context) => {
     throw new Error('Invalid password');
   }
 
-  // TODO:
-  // generate refresh token
-  // persist refresh token in DB and associate it w/ a user
-  // send the refresh token as an HTTP Only cookiep
+  const userData = { userId: user.id };
 
-  ctx.res.cookie('refresh_token', '123', {
-    httpOnly: true,
-    secure: isProd(), // requires to only use w/ https
+  await AuthService.updateRefreshToken({
+    userData,
+    ctx,
   });
 
   return {
-    token: JWTService.sign({ userId: user.id }),
+    token: AuthService.generateJWT(userData),
+    tokenExpiry: AuthService.getTokenExpiry(),
     user,
   };
 };
@@ -42,6 +38,7 @@ export const signUpResolver = async (
   ctx,
 ) => {
   const hashedPassword = await hash(password, 10);
+
   const user = await models.user.create({
     data: {
       name,
@@ -49,8 +46,17 @@ export const signUpResolver = async (
       password: hashedPassword,
     },
   });
+
+  const userData = { userId: user.id };
+
+  await AuthService.createRefreshToken({
+    userData,
+    ctx,
+  });
+
   return {
-    token: JWTService.sign({ userId: user.id }),
+    token: AuthService.generateJWT({ userId: user.id }),
+    tokenExpiry: AuthService.getTokenExpiry(),
     user,
   };
 };

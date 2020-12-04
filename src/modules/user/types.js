@@ -4,6 +4,7 @@ const AuthPayload = objectType({
   name: 'AuthPayload',
   definition(t) {
     t.string('token');
+    t.string('tokenExpiry');
     t.field('user', { type: 'User' });
   },
 });

@@ -1,4 +1,5 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
+import { TIME } from './constants';
 
 export const isProd = () => process.env.NODE_ENV === 'production';
 
@@ -35,3 +36,7 @@ export const getUserId = (ctx) => {
 };
 
 export const port = process.env.PORT || 5000;
+
+export const timeFromNow = () => {
+  return new Date(Date.now() + TIME.ONE_HOUR).getTime();
+};

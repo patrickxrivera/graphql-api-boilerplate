@@ -9,13 +9,13 @@ datasource db {
 }
 
 model pgmigrations {
-  id     Int      @default(autoincrement()) @id
+  id     Int      @id @default(autoincrement())
   name   String
   run_on DateTime
 }
 
 model Post {
-  id        Int      @default(autoincrement()) @id
+  id        Int      @id @default(autoincrement())
   content   String?
   published Boolean  @default(false)
   title     String
@@ -28,23 +28,26 @@ model Post {
 }
 
 model User {
-  id            Int             @default(autoincrement()) @id
-  email         String          @unique
-  name          String?
-  password      String
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  posts         Post[]
-  refreshTokens refreshTokens[] @relation("refreshTokensTousers")
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  name         String?
+  password     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  posts        Post[]
+  refreshToken RefreshToken? @relation("refreshTokensTousers")
 
   @@map("users")
 }
 
-model refreshTokens {
-  id        Int       @default(autoincrement()) @id
-  userId    Int
+model RefreshToken {
+  id        Int       @id @default(autoincrement())
+  token     String?
+  userId    Int       @unique
   revokedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  users     User      @relation("refreshTokensTousers", fields: [userId], references: [id])
+  user      User      @relation("refreshTokensTousers", fields: [userId], references: [id])
+
+  @@map("refreshTokens")
 }
