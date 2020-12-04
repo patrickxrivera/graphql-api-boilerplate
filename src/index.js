@@ -6,6 +6,8 @@ const prisma = require('./setup/models')
 const { permissions } = require('./services/permissions')
 const types = require('./types')
 
+const port = process.env.port || 5000
+
 const server = new ApolloServer({
   schema: applyMiddleware(
     makeSchema({
@@ -29,7 +31,7 @@ const server = new ApolloServer({
 })
 
 server
-  .listen()
+  .listen(port)
   .then(({ url }) =>
     console.log(
       `🚀 Server ready at: ${url}\n⭐️ See sample queries: http://pris.ly/e/js/graphql-auth#using-the-graphql-api`,

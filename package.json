@@ -1,5 +1,5 @@
 {
-  "name": "graphql-auth",
+  "name": "graphql-api-boilerplate",
   "version": "1.0.0",
   "dependencies": {
     "@nexus/schema": "0.19.2",
