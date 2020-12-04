@@ -70,11 +70,32 @@ export const meResolver = (parent, args, ctx) => {
   });
 };
 
-export const refreshTokenResolver = (parent, args, ctx) => {
-  // get refreshToken from HTTPOnly cookie
-  // verify refreshToken against DB
-  // generate jwtToken and refreshToken
-  // persist new refreshToken
-  // set new refreshToken as HTTPOnly cookie
-  // return payload to client
+export const refreshTokenResolver = async (parent, args, ctx) => {
+  const refreshToken = ctx.req.cookies && ctx.req.cookies['refresh_token'];
+
+  if (!refreshToken) {
+    throw new Error('Did not receive refresh token.');
+  }
+
+  const refreshTokenRecord = await models.refreshToken.findUnique({
+    where: { token: refreshToken },
+    include: { user: true },
+  });
+
+  if (!refreshTokenRecord) {
+    throw new Error("Refresh token doesn't exist.");
+  }
+
+  const userData = { userId: refreshTokenRecord.user.id };
+
+  await AuthService.updateRefreshToken({
+    userData,
+    ctx,
+  });
+
+  return {
+    token: AuthService.generateJWT(userData),
+    tokenExpiry: AuthService.getTokenExpiry(),
+    user: refreshTokenRecord.user,
+  };
 };

@@ -1,34 +1,21 @@
-import { ApolloServer } from 'apollo-server';
-import { applyMiddleware } from 'graphql-middleware';
-import { nexusPrisma } from 'nexus-plugin-prisma';
-import { makeSchema, declarativeWrappingPlugin } from '@nexus/schema';
-import prisma from './setup/models';
-import permissions from './services/permissions';
-import types from './types';
+import express from 'express';
+import cors from 'cors';
 import { port } from './utils';
+import config from './config';
+import cookieParser from 'cookie-parser';
+import { setupApolloServer } from './setup/apolloServer';
 
-const server = new ApolloServer({
-  schema: applyMiddleware(
-    makeSchema({
-      types,
-      plugins: [nexusPrisma(), declarativeWrappingPlugin()],
-      outputs: {
-        schema: __dirname + '/../schema.graphql',
-        typegen: __dirname + '/generated/nexus.ts',
-      },
-    }),
-    permissions,
+const app = express();
+
+app.use(cors({ credentials: true }));
+app.use(cookieParser());
+
+const apolloServer = setupApolloServer();
+
+apolloServer.applyMiddleware({ app });
+
+app.listen({ port }, () =>
+  console.log(
+    `🚀 Server ready at ${config.baseUrl}${apolloServer.graphqlPath}`,
   ),
-  context: (request) => {
-    return {
-      ...request,
-      prisma,
-    };
-  },
-  introspection: true,
-  playground: true,
-});
-
-server
-  .listen({ port })
-  .then(({ url }) => console.log(`🚀 Server ready at: ${url}`));
+);

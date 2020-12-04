@@ -30,8 +30,6 @@ class AuthService {
       },
     });
 
-    console.log({ refreshToken, userData });
-
     AuthService.setRefreshTokenCookie(refreshToken, ctx);
   }
 

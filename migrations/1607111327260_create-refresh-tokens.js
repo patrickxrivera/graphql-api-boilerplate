@@ -7,7 +7,11 @@ const tableName = 'refreshTokens';
 exports.up = (pgm) => {
   pgm.createTable(tableName, {
     id: 'id',
-    token: 'varchar(255)',
+    token: {
+      type: 'varchar(255)',
+      unique: true,
+      notNull: true,
+    },
     userId: {
       type: 'integer',
       unique: true,

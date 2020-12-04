@@ -1,5 +1,9 @@
 import { stringArg } from '@nexus/schema';
-import { loginResolver, signUpResolver } from './resolvers';
+import {
+  loginResolver,
+  signUpResolver,
+  refreshTokenResolver,
+} from './resolvers';
 
 const signUp = {
   type: 'AuthPayload',
@@ -20,7 +24,13 @@ const login = {
   resolve: loginResolver,
 };
 
+const refreshToken = {
+  type: 'AuthPayload',
+  resolve: refreshTokenResolver,
+};
+
 export default {
   signUp,
   login,
+  refreshToken,
 };
