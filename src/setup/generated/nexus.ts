@@ -38,6 +38,9 @@ export interface NexusGenObjects {
     tokenExpiry?: string | null; // String
     user?: NexusGenRootTypes['User'] | null; // User
   }
+  LogoutPayload: { // root type
+    success?: boolean | null; // Boolean
+  }
   Mutation: {};
   Post: { // root type
     content?: string | null; // String
@@ -69,11 +72,15 @@ export interface NexusGenFieldTypes {
     tokenExpiry: string | null; // String
     user: NexusGenRootTypes['User'] | null; // User
   }
+  LogoutPayload: { // field return type
+    success: boolean | null; // Boolean
+  }
   Mutation: { // field return type
     createDraft: NexusGenRootTypes['Post'] | null; // Post
     createPost: NexusGenRootTypes['Post'] | null; // Post
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
+    logout: NexusGenRootTypes['LogoutPayload'] | null; // LogoutPayload
     publish: NexusGenRootTypes['Post'] | null; // Post
     refreshToken: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     signUp: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
@@ -105,11 +112,15 @@ export interface NexusGenFieldTypeNames {
     tokenExpiry: 'String'
     user: 'User'
   }
+  LogoutPayload: { // field return type name
+    success: 'Boolean'
+  }
   Mutation: { // field return type name
     createDraft: 'Post'
     createPost: 'Post'
     deletePost: 'Post'
     login: 'AuthPayload'
+    logout: 'LogoutPayload'
     publish: 'Post'
     refreshToken: 'AuthPayload'
     signUp: 'AuthPayload'

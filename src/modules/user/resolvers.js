@@ -74,7 +74,7 @@ export const refreshTokenResolver = async (parent, args, ctx) => {
   const refreshToken = ctx.req.cookies && ctx.req.cookies['refresh_token'];
 
   if (!refreshToken) {
-    throw new Error('Did not receive refresh token.');
+    throw new Error('Did not receive refresh token in request.');
   }
 
   const refreshTokenRecord = await models.refreshToken.findUnique({
@@ -83,7 +83,7 @@ export const refreshTokenResolver = async (parent, args, ctx) => {
   });
 
   if (!refreshTokenRecord) {
-    throw new Error("Refresh token doesn't exist.");
+    throw new Error("Refresh token doesn't exist or it is invalid.");
   }
 
   const userData = { userId: refreshTokenRecord.user.id };
@@ -97,5 +97,15 @@ export const refreshTokenResolver = async (parent, args, ctx) => {
     token: AuthService.generateJWT(userData),
     tokenExpiry: AuthService.getTokenExpiry(),
     user: refreshTokenRecord.user,
+  };
+};
+
+export const logoutResolver = async (parent, args, ctx) => {
+  const userId = getUserId(ctx);
+
+  await AuthService.revokeRefreshToken(userId);
+
+  return {
+    success: true,
   };
 };

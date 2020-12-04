@@ -7,6 +7,7 @@ const Mutation = mutationType({
     t.field('signUp', user.signUp);
     t.field('login', user.login);
     t.field('refreshToken', user.refreshToken);
+    t.field('logout', user.logout);
 
     t.field('createDraft', post.createDraft);
     t.field('deletePost', post.deletePost);

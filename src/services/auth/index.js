@@ -40,6 +40,17 @@ class AuthService {
     });
   }
 
+  static async revokeRefreshToken(userId) {
+    await models.refreshToken.update({
+      where: {
+        userId,
+      },
+      data: {
+        revokedAt: new Date(),
+      },
+    });
+  }
+
   static generateJWT(data) {
     return jwt.sign(data, config.appSecret, {
       // TODO: move to config

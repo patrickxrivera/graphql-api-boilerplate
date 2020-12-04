@@ -19,7 +19,15 @@ const User = objectType({
   },
 });
 
+const LogoutPayload = objectType({
+  name: 'LogoutPayload',
+  definition(t) {
+    t.boolean('success');
+  },
+});
+
 export default {
   AuthPayload,
   User,
+  LogoutPayload,
 };

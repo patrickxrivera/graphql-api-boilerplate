@@ -8,11 +8,16 @@ type AuthPayload {
   user: User
 }
 
+type LogoutPayload {
+  success: Boolean
+}
+
 type Mutation {
   createDraft(content: String, title: String): Post
   createPost(content: String, title: String): Post
   deletePost(id: ID): Post
   login(email: String, password: String): AuthPayload
+  logout: LogoutPayload
   publish(id: ID): Post
   refreshToken: AuthPayload
   signUp(email: String, name: String, password: String): AuthPayload

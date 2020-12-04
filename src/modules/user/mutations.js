@@ -3,6 +3,7 @@ import {
   loginResolver,
   signUpResolver,
   refreshTokenResolver,
+  logoutResolver,
 } from './resolvers';
 
 const signUp = {
@@ -29,8 +30,14 @@ const refreshToken = {
   resolve: refreshTokenResolver,
 };
 
+const logout = {
+  type: 'LogoutPayload',
+  resolve: logoutResolver,
+};
+
 export default {
   signUp,
   login,
   refreshToken,
+  logout,
 };
