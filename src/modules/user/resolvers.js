@@ -44,7 +44,7 @@ const signup = async (parent, { name, email, password }, ctx) => {
 
 const me = (parent, args, ctx) => {
   const userId = getUserId(ctx);
-  return models.user.findOne({
+  return models.user.findUnique({
     where: {
       id: userId,
     },

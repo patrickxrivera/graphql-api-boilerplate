@@ -1,8 +1,8 @@
-const { getUserId } = require('../../utils')
-const models = require('../../setup/models')
+const { getUserId } = require('../../utils');
+const models = require('../../setup/models');
 
-const createDraft = (parent, { title, content }, ctx) => {
-  const userId = getUserId(ctx)
+export const createDraft = (parent, { title, content }, ctx) => {
+  const userId = getUserId(ctx);
   return models.post.create({
     data: {
       title,
@@ -10,29 +10,29 @@ const createDraft = (parent, { title, content }, ctx) => {
       published: false,
       author: { connect: { id: Number(userId) } },
     },
-  })
-}
+  });
+};
 
 const deletePost = (parent, { id }, ctx) => {
   return models.post.delete({
     where: { id: Number(id) },
-  })
-}
+  });
+};
 
 const publish = (parent, { id }, ctx) => {
   return models.post.update({
     where: { id: Number(id) },
     data: { published: true },
-  })
-}
+  });
+};
 
-const feed = (parent, args, ctx) => {
+export const getFeed = (parent, args, ctx) => {
   return models.post.findMany({
     where: { published: true },
-  })
-}
+  });
+};
 
-const filterPosts = (parent, { searchString }, ctx) => {
+export const getFilteredPosts = (parent, { searchString }, ctx) => {
   return models.post.findMany({
     where: {
       OR: [
@@ -48,11 +48,11 @@ const filterPosts = (parent, { searchString }, ctx) => {
         },
       ],
     },
-  })
-}
+  });
+};
 
-const createPost = async (parent, { title, content }, ctx) => {
-  const userId = getUserId(ctx)
+export const createPost = async (parent, { title, content }, ctx) => {
+  const userId = getUserId(ctx);
 
   return models.post.create({
     data: {
@@ -61,23 +61,13 @@ const createPost = async (parent, { title, content }, ctx) => {
       published: true,
       author: { connect: { id: Number(userId) } },
     },
-  })
-}
+  });
+};
 
-const getPostById = (parent, { id }, ctx) => {
-  return models.post.findOne({
+export const getPostByIdResolver = (parent, { id }, ctx) => {
+  return models.post.findUnique({
     where: {
       id: Number(id),
     },
-  })
-}
-
-module.exports = {
-  createDraft,
-  deletePost,
-  publish,
-  feed,
-  filterPosts,
-  getPostById,
-  createPost,
-}
+  });
+};

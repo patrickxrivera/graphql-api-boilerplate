@@ -1,32 +1,22 @@
-const { idArg, stringArg } = require('@nexus/schema')
-const {
-  feed: feedResolver,
-  filterPosts: filterPostsResolver,
-  getPostById: getPostByIdResolver,
-} = require('./resolvers')
+import { idArg, stringArg } from '@nexus/schema';
+import { getFeed, getFilteredPosts, getPostByIdResolver } from './resolvers';
 
-const feed = {
+export const feed = {
   type: 'Post',
-  resolve: feedResolver,
-}
+  resolve: getFeed,
+};
 
-const filterPosts = {
+export const filterPosts = {
   type: 'Post',
   args: {
     searchString: stringArg({ nullable: true }),
   },
-  resolve: filterPostsResolver,
-}
+  resolve: getFilteredPosts,
+};
 
-const getPostById = {
+export const getPostById = {
   type: 'Post',
   nullable: true,
   args: { id: idArg() },
   resolve: getPostByIdResolver,
-}
-
-module.exports = {
-  feed,
-  filterPosts,
-  getPostById,
-}
+};

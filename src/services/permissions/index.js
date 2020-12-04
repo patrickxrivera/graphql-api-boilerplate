@@ -10,7 +10,7 @@ const rules = {
   isPostOwner: rule()(async (parent, { id }, context) => {
     const userId = getUserId(context);
     const author = await models.post
-      .findOne({
+      .findUnique({
         where: {
           id: Number(id),
         },
@@ -38,6 +38,4 @@ const permissions = shield(
   },
 );
 
-module.exports = {
-  permissions,
-};
+export default permissions;

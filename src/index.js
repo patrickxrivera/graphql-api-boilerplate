@@ -1,12 +1,11 @@
-const { ApolloServer } = require('apollo-server');
-const { applyMiddleware } = require('graphql-middleware');
-const { nexusPrisma } = require('nexus-plugin-prisma');
-const { makeSchema, declarativeWrappingPlugin } = require('@nexus/schema');
-const prisma = require('./setup/models');
-const { permissions } = require('./services/permissions');
-const types = require('./types');
-
-const port = process.env.PORT || 5000;
+import { ApolloServer } from 'apollo-server';
+import { applyMiddleware } from 'graphql-middleware';
+import { nexusPrisma } from 'nexus-plugin-prisma';
+import { makeSchema, declarativeWrappingPlugin } from '@nexus/schema';
+import prisma from './setup/models';
+import permissions from './services/permissions';
+import types from './types';
+import { port } from './utils';
 
 const server = new ApolloServer({
   schema: applyMiddleware(
