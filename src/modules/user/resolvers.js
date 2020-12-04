@@ -1,6 +1,6 @@
 import { compare, hash } from 'bcryptjs';
 import models from '../../setup/models';
-import { getUserId } from '../../utils';
+import { getUserId, isProd } from '../../utils';
 import JWTService from '../../services/jwt';
 
 export const loginResolver = async (parent, { email, password }, context) => {
@@ -19,6 +19,16 @@ export const loginResolver = async (parent, { email, password }, context) => {
   if (!isValidPassword) {
     throw new Error('Invalid password');
   }
+
+  // TODO:
+  // generate refresh token
+  // persist refresh token in DB and associate it w/ a user
+  // send the refresh token as an HTTP Only cookiep
+
+  ctx.res.cookie('refresh_token', '123', {
+    httpOnly: true,
+    secure: isProd(), // requires to only use w/ https
+  });
 
   return {
     token: JWTService.sign({ userId: user.id }),
@@ -52,4 +62,13 @@ export const meResolver = (parent, args, ctx) => {
       id: userId,
     },
   });
+};
+
+export const refreshTokenResolver = (parent, args, ctx) => {
+  // get refreshToken from HTTPOnly cookie
+  // verify refreshToken against DB
+  // generate jwtToken and refreshToken
+  // persist new refreshToken
+  // set new refreshToken as HTTPOnly cookie
+  // return payload to client
 };

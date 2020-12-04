@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 
-exports.shorthands = undefined
+exports.shorthands = undefined;
 
-const tableName = 'posts'
+const tableName = 'posts';
 
 exports.up = (pgm) => {
   pgm.createTable(tableName, {
@@ -22,9 +22,18 @@ exports.up = (pgm) => {
       notNull: true,
       references: 'users',
     },
-  })
-}
+    createdAt: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
+    },
+    updatedAt: {
+      type: 'timestamp',
+      notNull: true,
+    },
+  });
+};
 
 exports.down = (pgm) => {
-  pgm.dropTable(tableName)
-}
+  pgm.dropTable(tableName);
+};

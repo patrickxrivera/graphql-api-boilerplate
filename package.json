@@ -28,6 +28,7 @@
     "start:server": "node build/index.js",
     "db:connect": "psql graphql_boilerplate_dev",
     "db:create-migration": "node-pg-migrate create",
+    "db:rollback": "DATABASE_URL=postgresql://patrickrivera:patrickrivera@localhost:5432/graphql_boilerplate_dev node-pg-migrate down",
     "db:migrate": "DATABASE_URL=postgresql://patrickrivera:patrickrivera@localhost:5432/graphql_boilerplate_dev node-pg-migrate up",
     "prisma:introspect": "npx prisma introspect",
     "prisma:generate": "npx prisma generate",
