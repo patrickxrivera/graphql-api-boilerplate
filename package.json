@@ -1,40 +1,41 @@
 {
-    "name": "graphql-api-boilerplate",
-    "version": "1.0.0",
-    "dependencies": {
-        "@nexus/schema": "0.19.2",
-        "@prisma/client": "2.12.1",
-        "apollo-server": "2.19.0",
-        "bcryptjs": "2.4.3",
-        "graphql": "15.4.0",
-        "graphql-middleware": "4.0.2",
-        "graphql-shield": "7.4.2",
-        "jsonwebtoken": "8.5.1",
-        "nexus-plugin-prisma": "0.25.0",
-        "node-pg-migrate": "^5.9.0",
-        "nodemon": "^2.0.6",
-        "pg": "^8.5.1"
-    },
-    "scripts": {
-        "start": "node src",
-        "heroku-postbuild": "npm run prisma:generate",
-        "start:dev": "nodemon src",
-        "db:connect": "psql graphql_boilerplate_dev",
-        "db:create-migration": "node-pg-migrate create",
-        "db:migrate": "node-pg-migrate",
-        "prisma:introspect": "npx prisma introspect",
-        "prisma:generate": "npx prisma generate"
-    },
-    "devDependencies": {
-        "prettier": "2.2.1",
-        "@prisma/cli": "2.12.1"
-    },
-    "prettier": {
-        "singleQuote": true,
-        "trailingComma": "all",
-        "tabWidth": 4
-    },
-    "engines": {
-        "node": ">=10.0.0"
-    }
+  "name": "graphql-api-boilerplate",
+  "version": "1.0.0",
+  "dependencies": {
+    "@nexus/schema": "0.19.2",
+    "@prisma/client": "2.12.1",
+    "apollo-server": "2.19.0",
+    "bcryptjs": "2.4.3",
+    "graphql": "15.4.0",
+    "graphql-middleware": "4.0.2",
+    "graphql-shield": "7.4.2",
+    "jsonwebtoken": "8.5.1",
+    "nexus-plugin-prisma": "0.25.0",
+    "node-pg-migrate": "^5.9.0",
+    "nodemon": "^2.0.6",
+    "pg": "^8.5.1"
+  },
+  "scripts": {
+    "start": "node src",
+    "heroku-postbuild": "npm run prisma:generate",
+    "heroku:db:connect": "heroku pg:psql",
+    "start:dev": "nodemon src",
+    "db:connect": "psql graphql_boilerplate_dev",
+    "db:create-migration": "node-pg-migrate create",
+    "db:migrate": "node-pg-migrate",
+    "prisma:introspect": "npx prisma introspect",
+    "prisma:generate": "npx prisma generate"
+  },
+  "devDependencies": {
+    "prettier": "2.2.1",
+    "@prisma/cli": "2.12.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "tabWidth": 2
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }
