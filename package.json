@@ -2,6 +2,7 @@
   "name": "graphql-api-boilerplate",
   "version": "1.0.0",
   "dependencies": {
+    "@babel/cli": "^7.12.8",
     "@nexus/schema": "0.19.2",
     "@prisma/client": "2.12.1",
     "apollo-server": "2.19.0",
@@ -31,7 +32,6 @@
     "heroku:db:connect": "heroku pg:psql"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
     "@babel/node": "^7.12.6",
     "@babel/preset-env": "^7.12.7",
