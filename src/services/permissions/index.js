@@ -1,22 +1,30 @@
-const { rule, shield } = require('graphql-shield');
-const { getUserId } = require('../../utils');
-const models = require('../../setup/models');
+import { rule, shield } from 'graphql-shield';
+import { getUserId } from '../../utils';
+import models from '../../setup/models';
 
 const rules = {
   isAuthenticatedUser: rule()((parent, args, context) => {
-    const userId = getUserId(context);
-    return Boolean(userId);
+    try {
+      const userId = getUserId(context);
+      return Boolean(userId);
+    } catch (err) {
+      return err.message;
+    }
   }),
   isPostOwner: rule()(async (parent, { id }, context) => {
-    const userId = getUserId(context);
-    const author = await models.post
-      .findUnique({
-        where: {
-          id: Number(id),
-        },
-      })
-      .author();
-    return userId === author.id;
+    try {
+      const userId = getUserId(context);
+      const author = await models.post
+        .findUnique({
+          where: {
+            id: Number(id),
+          },
+        })
+        .author();
+      return userId === author.id;
+    } catch (err) {
+      return err.message;
+    }
   }),
 };
 

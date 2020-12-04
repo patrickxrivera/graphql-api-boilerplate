@@ -1,8 +1,8 @@
-const { compare, hash } = require('bcryptjs');
-const { sign } = require('jsonwebtoken');
-const { APP_SECRET } = require('../../utils');
-const models = require('../../setup/models');
-const { getUserId } = require('../../utils');
+import { compare, hash } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
+import models from '../../setup/models';
+import { getUserId } from '../../utils';
+import config from '../../config';
 
 const login = async (parent, { email, password }, context) => {
   const user = await models.user.findUnique({
@@ -22,7 +22,7 @@ const login = async (parent, { email, password }, context) => {
   }
 
   return {
-    token: sign({ userId: user.id }, APP_SECRET),
+    token: sign({ userId: user.id }, config.appSecret),
     user,
   };
 };
@@ -37,7 +37,7 @@ const signup = async (parent, { name, email, password }, ctx) => {
     },
   });
   return {
-    token: sign({ userId: user.id }, APP_SECRET),
+    token: sign({ userId: user.id }, config.appSecret),
     user,
   };
 };

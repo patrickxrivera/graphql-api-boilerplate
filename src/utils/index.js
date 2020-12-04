@@ -1,13 +1,17 @@
-const { verify } = require('jsonwebtoken');
+import { verify } from 'jsonwebtoken';
 
-export const APP_SECRET = 'appsecret321';
+export const isProd = () => process.env.NODE_ENV === 'production';
+
+const config = require('../config');
 
 export const getUserId = (context) => {
   const Authorization = context.req.get('Authorization');
 
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '');
-    const verifiedToken = verify(token, APP_SECRET);
+
+    const verifiedToken = verify(token, config.appSecret);
+
     return verifiedToken && verifiedToken.userId;
   }
 };
