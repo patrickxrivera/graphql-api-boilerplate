@@ -1,5 +1,5 @@
-const { getUserId } = require('../../utils');
-const models = require('../../setup/models');
+import models from '../../setup/models';
+import { getUserId } from '../../utils';
 
 export const createDraft = (parent, { title, content }, ctx) => {
   const userId = getUserId(ctx);
