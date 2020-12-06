@@ -7,7 +7,7 @@ import { setupApolloServer } from './setup/apolloServer';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ credentials: true }));
 app.use(cookieParser());
 
 const apolloServer = setupApolloServer();
